@@ -1,8 +1,9 @@
 var express = require("express");
-require("dotenv").config;
+require("dotenv").config();
 
 const { errorHandler } = require("./middleware/errorHandler");
-var connectDb = require("./db/index.js");
+const { connectToMongoDB } = require("./config/db");
+connectToMongoDB();
 
 var indexRouter = require("./routes/index");
 var todoRouter = require("./routes/todo");
@@ -10,7 +11,7 @@ var todoRouter = require("./routes/todo");
 var app = express();
 
 // connecting db
-connectDb();
+
 // view engine setup
 indexRouter.app = app;
 todoRouter.app = app;
