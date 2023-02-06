@@ -2,7 +2,7 @@ var express = require("express");
 require("dotenv").config();
 
 const { errorHandler } = require("./middleware/errorHandler");
-const { connectToMongoDB } = require("./config/db");
+const { connectToMongoDB } = require("./config/db/db");
 connectToMongoDB();
 
 var indexRouter = require("./routes/index");

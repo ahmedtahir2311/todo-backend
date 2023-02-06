@@ -43,3 +43,25 @@
 //     errorHandler(error);
 //   }
 // };
+
+// // ************** Making Multiple Connection and schemas ******************
+
+// const mongoose = require("mongoose");
+
+// const db1 = mongoose.createConnection("mongodb://localhost/db1", {
+//   useNewUrlParser: true,
+// });
+// const db2 = mongoose.createConnection("mongodb://localhost/db2", {
+//   useNewUrlParser: true,
+// });
+
+// const db1Schema = new mongoose.Schema({
+//   // ... your schema here
+// });
+
+// const db2Schema = new mongoose.Schema({
+//   // ... your schema here
+// });
+
+// const Model1 = db1.model("Model1", db1Schema);
+// const Model2 = db2.model("Model2", db2Schema);
