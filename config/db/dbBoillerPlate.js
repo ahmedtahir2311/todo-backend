@@ -46,6 +46,10 @@
 
 // // ************** Making Multiple Connection and schemas ******************
 
+// ?** just replace the string
+
+// mongoose.connect('mongodb://mongosA:27501,mongosB:27501', cb);   ********Multi Mongo connection
+
 // const mongoose = require("mongoose");
 
 // const db1 = mongoose.createConnection("mongodb://localhost/db1", {

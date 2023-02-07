@@ -1,7 +1,7 @@
 var express = require("express");
 var router = express.Router();
 
-const TodoController = require("../controllers/todo");
+const TodoController = require("../controllers/todo.controller");
 
 /* GET users listing. */
 exports.init = () => {
