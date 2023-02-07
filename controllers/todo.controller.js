@@ -1,28 +1,93 @@
 const asyncHandler = require("express-async-handler");
+const mongoose = require("mongoose");
+const Todo = require("../model/todo.model");
 
 exports.getTasks = asyncHandler(async (req, res, next) => {
-  return res.status(200).json({ message: "success", data: {} });
+  await Todo.find()
+    .then((result) => {
+      return res
+        .status(200)
+        .json({ message: "Getting tasks Success", data: result });
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500);
+      throw new Error(error);
+    });
 });
 
 exports.getTaskDetails = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
-  return res.status(200).json({ message: "Getting all Tasks", data: { id } });
+
+  await Todo.findOne({ id })
+    .then((result) => {
+      return res
+        .status(200)
+        .json({ message: "Getting Particular task sucees", data: result });
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500);
+      throw new Error();
+    });
 });
 
 exports.createTask = asyncHandler(async (req, res, next) => {
-  const {} = req.body;
-  return res.status(200).json({ message: "New Task Created", data: req.body });
+  const { title, description } = req.body;
+
+  await Todo.create({
+    id: new mongoose.Types.ObjectId(),
+    title: req.body.title,
+    description: req.body.description,
+  })
+    .then((result) => {
+      return res.status(201).json({
+        message: "Todo created successfully!",
+        createdTodo: {
+          id: result.id,
+          title: result.title,
+          description: result.description,
+          request: {
+            type: "GET",
+            url: `http://localhost:3000/todos/${result._id}`,
+          },
+        },
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500);
+      throw new Error();
+    });
 });
 
 exports.updateTask = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
-  const {} = req.body;
-  return res
-    .status(200)
-    .json({ message: `Task ${id} Updated  `, data: { id, body: req.body } });
+  // const { title, description } = req.body;
+
+  await Todo.findOneAndUpdate({ id }, req.body)
+    .then((result) => {
+      return res.status(200).json({
+        message: `Task ${id} Updated  `,
+        data: { id, body: req.body },
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500);
+      throw new Error();
+    });
 });
 
 exports.deleteTask = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
-  return res.status(200).json({ message: `Task ${id} Deleted `, data: id });
+  await Todo.findOneAndDelete({ id })
+    .then((result) => {
+      return res.status(200).json({ message: `Task Deleted `, data: result });
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500);
+      throw new Error();
+    });
 });

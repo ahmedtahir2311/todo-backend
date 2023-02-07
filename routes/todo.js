@@ -5,11 +5,13 @@ const TodoController = require("../controllers/todo.controller");
 
 /* GET users listing. */
 exports.init = () => {
-  router.get("/tasks", TodoController.getTasks);
-  router.get("/tasks/:id", TodoController.getTaskDetails);
+  router
+    .post("/tasks", TodoController.createTask)
+    .get("/tasks", TodoController.getTasks);
+  router
+    .put("/tasks/:id", TodoController.updateTask)
+    .get("/tasks/:id", TodoController.getTaskDetails)
+    .delete("/tasks/:id", TodoController.deleteTask);
 
-  router.post("/tasks/add", TodoController.createTask);
-  router.put("/tasks/edit/:id", TodoController.updateTask);
-  router.delete("/tasks/delete/:id", TodoController.deleteTask);
   this.app.use("/api", router);
 };
