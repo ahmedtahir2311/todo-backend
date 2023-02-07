@@ -1,5 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const mongoose = require("mongoose");
+const { errorHandler } = require("../middleware/errorHandler");
+
 const Todo = require("../model/todo.model");
 
 exports.getTasks = asyncHandler(async (req, res, next) => {
@@ -37,8 +39,8 @@ exports.createTask = asyncHandler(async (req, res, next) => {
 
   await Todo.create({
     id: new mongoose.Types.ObjectId(),
-    title: req.body.title,
-    description: req.body.description,
+    title,
+    description,
   })
     .then((result) => {
       return res.status(201).json({
@@ -54,10 +56,11 @@ exports.createTask = asyncHandler(async (req, res, next) => {
         },
       });
     })
-    .catch((error) => {
-      console.log(error);
-      res.status(500);
-      throw new Error();
+    .catch((err) => {
+      // console.log(err);
+      // return next(new Error(err));
+
+      return new Error("Surprize");
     });
 });
 

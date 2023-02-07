@@ -1,4 +1,5 @@
 const errorHandler = (err, req, res, next) => {
+  console.log("i am in error handler function");
   if (err.name === "ValidationError") {
     const statusCode = res.statusCode ? res.statusCode : 400;
     const missingFields = Object.keys(err.errors).map(
